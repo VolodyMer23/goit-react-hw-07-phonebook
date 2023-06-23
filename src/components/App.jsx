@@ -1,42 +1,34 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
 import { Container, PhonebookContainer, PhonebookTitle } from './App.styled';
 import Contacts from './Phonebook/ContactsList/ContactList';
-import {
-  addContact,
-  getContacts,
-  setFilterValue,
-  removeContactById,
-  getFilter,
-} from 'Redux/phonebookSlice';
+import { fetchContacts, deleteContact, addContact } from 'Redux/operations';
+import { getContacts, setFilterValue, getFilter } from 'Redux/phonebookSlice';
 import ContactAddForm from './Phonebook/ContactAddForm/ContactAddForm';
 import Filter from './Phonebook/Filter/Filter';
+import { useEffect } from 'react';
 
 export default function App() {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
-
-
+  console.log('contacts :>> ', contacts);
+  
   const nameCheker = name => {
-    return contacts.find(contact => contact.name === name);
+    return contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
   };
 
   const onFormSubmit = (name, number) => {
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
     if (nameCheker(name)) {
       return alert(`${name} is already in contacts.`);
     }
-    dispatch(addContact(newContact));
+    dispatch(addContact({ name, number }));
+    dispatch(fetchContacts());
   };
 
   const onDeleteContact = contactId => {
-    dispatch(removeContactById(contactId));
+    dispatch(deleteContact(contactId));
   };
 
   const onFilterChange = e => {
@@ -50,6 +42,10 @@ export default function App() {
     );
     return filteredContacts;
   };
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <Container>

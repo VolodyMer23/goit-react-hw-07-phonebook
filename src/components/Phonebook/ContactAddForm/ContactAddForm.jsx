@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
     ),
   number: Yup.string()
     .min(6, 'Must be atleat 6 nubmers')
-    .max(11, 'Must be 11 nubmers or less')
+    .max(17, 'Must be 11 nubmers or less')
     .required('Phone number is required')
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,

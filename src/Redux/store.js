@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistedPhonebookReducer } from './phonebookSlice';
-import { persistStore } from 'redux-persist';
 import {
   FLUSH,
   PAUSE,
@@ -9,10 +7,11 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist/es/constants';
+import { phonebookSlice } from './phonebookSlice';
 
 export const store = configureStore({
   reducer: {
-    phonebook: persistedPhonebookReducer,
+    phonebook: phonebookSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -21,5 +20,3 @@ export const store = configureStore({
       },
     }),
 });
-
-export const persistor = persistStore(store);
