@@ -6,13 +6,14 @@ import { getContacts, setFilterValue, getFilter } from 'Redux/phonebookSlice';
 import ContactAddForm from './Phonebook/ContactAddForm/ContactAddForm';
 import Filter from './Phonebook/Filter/Filter';
 import { useEffect } from 'react';
+import { nanoid } from 'nanoid';
 
 export default function App() {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
+  const contacts = useSelector(getContacts);
   console.log('contacts :>> ', contacts);
-  
+
   const nameCheker = name => {
     return contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -20,11 +21,15 @@ export default function App() {
   };
 
   const onFormSubmit = (name, number) => {
+    const newContact = {
+      name,
+      number,
+      id: nanoid(),
+    };
     if (nameCheker(name)) {
       return alert(`${name} is already in contacts.`);
     }
-    dispatch(addContact({ name, number }));
-    dispatch(fetchContacts());
+    dispatch(addContact(newContact));
   };
 
   const onDeleteContact = contactId => {

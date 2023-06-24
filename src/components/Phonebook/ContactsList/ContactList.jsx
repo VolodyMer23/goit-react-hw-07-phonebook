@@ -15,6 +15,7 @@ import { getError, getLoading } from 'Redux/phonebookSlice';
 function Contacts({ title, contacts, onDelete }) {
   const loading = useSelector(getLoading);
   const error = useSelector(getError);
+
   return (
     <ContactsWrapper>
       <ContactsTitle>{title}</ContactsTitle>

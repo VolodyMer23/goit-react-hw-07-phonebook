@@ -29,7 +29,6 @@ const validationSchema = Yup.object({
 
 function ContactAddForm({onSubmit}) {
  
-
   const formik = useFormik({
     initialValues: { name: '', number: '' },
     onSubmit: ({ name, number }) => handleSubmit(name, number),
